@@ -26,6 +26,11 @@ func (f *Fifo) Len() int {
 	return f.size - f.head + f.tail
 }
 
+// Size returns accomodations
+func (f *Fifo) Size() int {
+	return f.size
+}
+
 // Pick an item from the head
 // I assume that this API is "reasonably" tread safe. Will not cause
 // problems if there is a race
