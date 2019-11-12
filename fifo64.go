@@ -1,12 +1,14 @@
 package fifo64
 
+// Fifo of uint64 items
 type Fifo struct {
 	head int
 	tail int
-	data []FifoItem
+	data []uint64
 	size int
 }
 
+// New returns a new FIFO
 func New(size int) *Fifo {
 	f := new(Fifo)
 	f.data = make([]uint64, size+1, size+1)
@@ -16,14 +18,15 @@ func New(size int) *Fifo {
 	return f
 }
 
+// Len returns occupancy
 func (f *Fifo) Len() int {
 	if f.head <= f.tail {
 		return f.tail - f.head
-	} else {
-		return f.size - f.head + f.tail
 	}
+	return f.size - f.head + f.tail
 }
 
+// Pick an item from the head
 // I assume that this API is "reasonably" tread safe. Will not cause
 // problems if there is a race
 // s.head is modified by remove() and is an atomic operation
@@ -32,30 +35,37 @@ func (f *Fifo) Pick() (key uint64, ok bool) {
 	if f.head != f.tail {
 		key = f.data[f.head]
 		return key, true
-	} else {
-		return key, false
 	}
+	return key, false
 }
 
-
-func (f *Fifo) add(key uint64) (ok bool) {
-	newTail := s.inc(s.tail)
-	if s.head != newTail {
-		s.data[s.tail] = key
-		s.tail = newTail
+// Add an item to the FIFO
+func (f *Fifo) Add(key uint64) (ok bool) {
+	newTail := f.inc(f.tail)
+	if f.head != newTail {
+		f.data[f.tail] = key
+		f.tail = newTail
 		return true
-	} else {
-		return false
 	}
+	return false
 }
 
-func (f *Fifo) remove() (key uint64, ok bool) {
-	newHead := s.inc(s.head)
-	if s.head != s.tail {
-		key = s.data[s.head]
-		s.head = newHead
+// Remove an item from the FIFO
+func (f *Fifo) Remove() (key uint64, ok bool) {
+	newHead := f.inc(f.head)
+	if f.head != f.tail {
+		key = f.data[f.head]
+		f.head = newHead
 		return key, true
-	} else {
-		return key, false
 	}
+	return key, false
+}
+
+func (f *Fifo) inc(v int) int {
+	if v < f.size {
+		v++
+	} else {
+		v = 0
+	}
+	return v
 }
