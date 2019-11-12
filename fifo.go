@@ -45,3 +45,17 @@ func (f *Fifo) Len() int {
 		return s.size - s.head + s.tail
 	}
 }
+
+// I assume that this API is "reasonably" tread safe. Will not cause
+// problems if there is a race
+// s.head is modified by remove() and is an atomic operation
+// I do not care about valifity of s.tai
+func (f *iFifo) pick() (key uint64, ok bool) {
+	if f.head != f.tail {
+		key = f.data[s.head]
+		return key, true
+	} else {
+		return key, false
+	}
+}
+
