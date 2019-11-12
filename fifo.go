@@ -1,4 +1,4 @@
-package fifo
+package fifo64
 
 import (
 	"unsafe"
