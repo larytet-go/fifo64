@@ -22,23 +22,6 @@ func New(size int) *Fifo {
 	return s
 }
 
-// Allocate specified number of bytes from the FIFO starting at tail
-func (f *Fifo) Allocate(size int) (address unsafe.Pointer, ok bool) {
-	// if I fail to allocate
-	if tail > head {
-		if b.tail + size < f.size {
-			b.tail += size
-			return  
-		}
-	} else {
-		
-	}
-}
-
-func (f *Fifo) Free(address unsafe.Pointer, size int) (ok bool) {
-	return true
-}
-
 func (f *Fifo) Len() int {
 	if s.head <= s.tail {
 		return s.tail - s.head
