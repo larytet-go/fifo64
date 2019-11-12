@@ -30,9 +30,9 @@ func (f *Fifo) Len() int {
 // problems if there is a race
 // s.head is modified by remove() and is an atomic operation
 // I do not care about valifity of s.tai
-func (f *iFifo) pick() (key uint64, ok bool) {
+func (f *Fifo) pick() (key uint64, ok bool) {
 	if f.head != f.tail {
-		key = f.data[s.head]
+		key = f.data[f.head]
 		return key, true
 	} else {
 		return key, false
