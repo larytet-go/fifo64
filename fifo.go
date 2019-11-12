@@ -36,6 +36,7 @@ func (f *Fifo) Allocate(size int) (address unsafe.Pointer, ok bool) {
 }
 
 func (f *Fifo) Free(address unsafe.Pointer, size int) ok bool {
+	return true
 }
 
 func (f *Fifo) Len() int {
