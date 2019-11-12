@@ -1,9 +1,5 @@
 package fifo64
 
-import (
-	"unsafe"
-)
-
 type FifoItem uint64
 
 type Fifo struct {
@@ -14,19 +10,19 @@ type Fifo struct {
 }
 
 func New(size int) *Fifo {
-	s := new(Fifo)
-	s.data = make([]FifoItem, size+1, size+1)
-	s.size = size
-	s.head = 0
-	s.tail = 0
-	return s
+	f := new(Fifo)
+	f.data = make([]FifoItem, size+1, size+1)
+	f.size = size
+	f.head = 0
+	f.tail = 0
+	return f
 }
 
 func (f *Fifo) Len() int {
-	if s.head <= s.tail {
-		return s.tail - s.head
+	if f.head <= f.tail {
+		return f.tail - f.head
 	} else {
-		return s.size - s.head + s.tail
+		return f.size - f.head + f.tail
 	}
 }
 
